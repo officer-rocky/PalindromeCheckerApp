@@ -1,37 +1,59 @@
-public class PalindromeUC11 {
+public class PalindromeUC12 {
 
     public static void main(String[] args) {
 
-        String testString = "Deed";
+        String testString = "Level";
 
-        PalindromeChecker checker = new PalindromeChecker();
-        boolean result = checker.checkPalindrome(testString);
+        PalindromeStrategy strategy;
 
-        if (result) {
-            System.out.println("The string \"" + testString + "\" is a palindrome.");
-        } else {
-            System.out.println("The string \"" + testString + "\" is not a palindrome.");
-        }
+        strategy = new StackStrategy();
+        System.out.println("Using StackStrategy: " + testString + " -> " + strategy.checkPalindrome(testString));
+
+        strategy = new DequeStrategy();
+        System.out.println("Using DequeStrategy: " + testString + " -> " + strategy.checkPalindrome(testString));
     }
 }
 
-class PalindromeChecker {
+interface PalindromeStrategy {
+    boolean checkPalindrome(String input);
+}
 
+class StackStrategy implements PalindromeStrategy {
+
+    @Override
     public boolean checkPalindrome(String input) {
-
         if (input == null) return false;
 
         String normalized = input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+        java.util.Stack<Character> stack = new java.util.Stack<>();
 
-        int start = 0;
-        int end = normalized.length() - 1;
+        for (char c : normalized.toCharArray()) {
+            stack.push(c);
+        }
 
-        while (start < end) {
-            if (normalized.charAt(start) != normalized.charAt(end)) {
-                return false;
-            }
-            start++;
-            end--;
+        for (char c : normalized.toCharArray()) {
+            if (c != stack.pop()) return false;
+        }
+
+        return true;
+    }
+}
+
+class DequeStrategy implements PalindromeStrategy {
+
+    @Override
+    public boolean checkPalindrome(String input) {
+        if (input == null) return false;
+
+        String normalized = input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+        java.util.Deque<Character> deque = new java.util.ArrayDeque<>();
+
+        for (char c : normalized.toCharArray()) {
+            deque.addLast(c);
+        }
+
+        while (deque.size() > 1) {
+            if (!deque.removeFirst().equals(deque.removeLast())) return false;
         }
 
         return true;
