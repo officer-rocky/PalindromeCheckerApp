@@ -1,14 +1,32 @@
-public class PalindromeUC3 {
+public class PalindromeUC4 {
 
     public static void main(String[] args) {
 
-        String original = "level";
-        String reversed = "";
+        // Original string
+        String original = "radar";
 
-        for (int i = original.length() - 1; i >= 0; i--) {
-            reversed = reversed + original.charAt(i);
+        // Convert string to char array
+        char[] characters = original.toCharArray();
+
+        // Two-pointer approach
+        int start = 0;
+        int end = characters.length - 1;
+
+        boolean isPalindrome = true;
+
+        while (start < end) {
+
+            if (characters[start] != characters[end]) {
+                isPalindrome = false;
+                break;
+            }
+
+            start++;
+            end--;
         }
-        if (original.equals(reversed)) {
+
+        // Display result
+        if (isPalindrome) {
             System.out.println("The string \"" + original + "\" is a palindrome.");
         } else {
             System.out.println("The string \"" + original + "\" is not a palindrome.");
