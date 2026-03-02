@@ -1,80 +1,32 @@
-public class PalindromeUC8 {
+public class PalindromeUC9 {
 
-    static class Node {
-        char data;
-        Node next;
-
-        Node(char data) {
-            this.data = data;
-            this.next = null;
-        }
-    }
+    static int left = 0;
 
     public static void main(String[] args) {
 
-        String original = "level";
+        String original = "radar";
 
-        Node head = null;
-        Node tail = null;
+        left = 0;
+        boolean isPalindrome = checkPalindrome(original, original.length() - 1);
 
-        for (int i = 0; i < original.length(); i++) {
-            Node newNode = new Node(original.charAt(i));
-            if (head == null) {
-                head = newNode;
-                tail = newNode;
-            } else {
-                tail.next = newNode;
-                tail = newNode;
-            }
-        }
-
-        if (isPalindrome(head)) {
+        if (isPalindrome) {
             System.out.println("The string \"" + original + "\" is a palindrome.");
         } else {
             System.out.println("The string \"" + original + "\" is not a palindrome.");
         }
     }
 
-    private static boolean isPalindrome(Node head) {
+    private static boolean checkPalindrome(String str, int right) {
 
-        if (head == null || head.next == null) {
+        if (right <= left) {
             return true;
         }
 
-        Node slow = head;
-        Node fast = head;
-
-        while (fast != null && fast.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
+        if (str.charAt(left) != str.charAt(right)) {
+            return false;
         }
 
-        Node secondHalf = reverse(slow);
-        Node firstHalf = head;
-
-        while (secondHalf != null) {
-            if (firstHalf.data != secondHalf.data) {
-                return false;
-            }
-            firstHalf = firstHalf.next;
-            secondHalf = secondHalf.next;
-        }
-
-        return true;
-    }
-
-    private static Node reverse(Node head) {
-
-        Node prev = null;
-        Node current = head;
-
-        while (current != null) {
-            Node next = current.next;
-            current.next = prev;
-            prev = current;
-            current = next;
-        }
-
-        return prev;
+        left++;
+        return checkPalindrome(str, right - 1);
     }
 }
