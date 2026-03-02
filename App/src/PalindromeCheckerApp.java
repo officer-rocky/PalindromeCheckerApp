@@ -1,31 +1,31 @@
 import java.util.Stack;
+import java.util.Queue;
+import java.util.LinkedList;
 
-public class PalindromeUC5 {
+public class PalindromeUC6 {
 
     public static void main(String[] args) {
 
-        // Original string
-        String original = "madam";
+        String original = "level";
 
-        // Create stack
         Stack<Character> stack = new Stack<>();
+        Queue<Character> queue = new LinkedList<>();
 
-        // Push characters into stack
         for (int i = 0; i < original.length(); i++) {
-            stack.push(original.charAt(i));
+            char ch = original.charAt(i);
+            stack.push(ch);
+            queue.add(ch);
         }
 
         boolean isPalindrome = true;
 
-        // Pop and compare
         for (int i = 0; i < original.length(); i++) {
-            if (original.charAt(i) != stack.pop()) {
+            if (!queue.remove().equals(stack.pop())) {
                 isPalindrome = false;
                 break;
             }
         }
 
-        // Print result
         if (isPalindrome) {
             System.out.println("The string \"" + original + "\" is a palindrome.");
         } else {
